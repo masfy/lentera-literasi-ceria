@@ -1,4 +1,4 @@
-const API_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxmczYtJnxxsC14Hs6hGjHY805lQolURL7AzZk7L9Fq5jF90361jhICF3VG4jcmuBadqw/exec';
+const API_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyl0jON7MnZ8aUWlH5T8r4Jb86hVN4opbQqk4KLoC94CAfjun8seNuFIKeC8rOCdodXdg/exec';
 
 interface ApiResponse<T = any> {
   success: boolean;
