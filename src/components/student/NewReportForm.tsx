@@ -103,7 +103,7 @@ export const NewReportForm = ({ studentData, onBack, onSubmit }: NewReportFormPr
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch (_error) {
       toast({
         title: "Terjadi kesalahan",
         description: "Tidak dapat terhubung ke server",
