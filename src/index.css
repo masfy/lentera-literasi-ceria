@@ -2,95 +2,133 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Lentera Design System - Warm educational lantern theme */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Base colors - warm and inviting */
+    --background: 45 100% 98%;
+    --foreground: 35 25% 20%;
 
+    /* Card components */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 35 25% 20%;
 
+    /* Popover components */
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 35 25% 20%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - warm orange/amber like lantern light */
+    --primary: 35 95% 55%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 45 100% 65%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - soft cream */
+    --secondary: 45 60% 92%;
+    --secondary-foreground: 35 25% 20%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted - light warm gray */
+    --muted: 40 20% 94%;
+    --muted-foreground: 35 15% 50%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent - golden yellow */
+    --accent: 50 95% 65%;
+    --accent-foreground: 35 25% 20%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Educational success - gentle green */
+    --success: 120 40% 55%;
+    --success-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Educational warning - warm orange */
+    --warning: 25 95% 60%;
+    --warning-foreground: 0 0% 100%;
 
-    --radius: 0.5rem;
+    /* Destructive - soft red */
+    --destructive: 0 70% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --sidebar-background: 0 0% 98%;
+    /* Borders and inputs */
+    --border: 40 30% 88%;
+    --input: 40 30% 88%;
+    --ring: 35 95% 55%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    --radius: 0.75rem;
 
-    --sidebar-primary: 240 5.9% 10%;
+    /* Custom gradients for Lentera */
+    --gradient-lantern: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-warm: linear-gradient(180deg, hsl(45 100% 96%), hsl(40 60% 90%));
+    --gradient-glow: radial-gradient(circle at center, hsl(var(--primary-glow) / 0.2), transparent 70%);
 
-    --sidebar-primary-foreground: 0 0% 98%;
+    /* Shadows with warm glow */
+    --shadow-soft: 0 4px 20px hsl(var(--primary) / 0.1);
+    --shadow-glow: 0 8px 40px hsl(var(--primary) / 0.2);
+    --shadow-warm: 0 2px 10px hsl(35 50% 80% / 0.3);
 
-    --sidebar-accent: 240 4.8% 95.9%;
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar for teacher dashboard */
+    --sidebar-background: 40 50% 96%;
+    --sidebar-foreground: 35 25% 25%;
+    --sidebar-primary: 35 95% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 45 60% 90%;
+    --sidebar-accent-foreground: 35 25% 25%;
+    --sidebar-border: 40 30% 88%;
+    --sidebar-ring: 35 95% 55%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Dark mode with warm amber accents */
+    --background: 35 15% 8%;
+    --foreground: 45 50% 92%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 35 20% 12%;
+    --card-foreground: 45 50% 92%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 35 20% 12%;
+    --popover-foreground: 45 50% 92%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 45 95% 65%;
+    --primary-foreground: 35 15% 8%;
+    --primary-glow: 50 100% 70%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 35 25% 18%;
+    --secondary-foreground: 45 50% 92%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 35 20% 15%;
+    --muted-foreground: 35 15% 65%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 50 95% 65%;
+    --accent-foreground: 35 15% 8%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --success: 120 35% 50%;
+    --success-foreground: 45 50% 92%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --warning: 25 85% 55%;
+    --warning-foreground: 35 15% 8%;
+
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 45 50% 92%;
+
+    --border: 35 25% 20%;
+    --input: 35 25% 20%;
+    --ring: 45 95% 65%;
+
+    /* Dark mode gradients */
+    --gradient-lantern: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-warm: linear-gradient(180deg, hsl(35 20% 12%), hsl(35 15% 8%));
+    --gradient-glow: radial-gradient(circle at center, hsl(var(--primary-glow) / 0.15), transparent 70%);
+
+    --sidebar-background: 35 20% 10%;
+    --sidebar-foreground: 45 50% 90%;
+    --sidebar-primary: 45 95% 65%;
+    --sidebar-primary-foreground: 35 15% 8%;
+    --sidebar-accent: 35 25% 15%;
+    --sidebar-accent-foreground: 45 50% 90%;
+    --sidebar-border: 35 25% 18%;
+    --sidebar-ring: 45 95% 65%;
   }
 }
 
@@ -100,6 +138,69 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    background-image: var(--gradient-warm);
+    background-attachment: fixed;
+  }
+
+  /* Custom scrollbar for webkit browsers */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted/50;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/30 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/50;
+  }
+}
+
+@layer components {
+  /* Lantern glow effect */
+  .lantern-glow {
+    position: relative;
+  }
+
+  .lantern-glow::before {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    background: var(--gradient-glow);
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .lantern-glow:hover::before {
+    opacity: 1;
+  }
+
+  /* Floating animation for educational elements */
+  .float-gentle {
+    animation: float-gentle 6s ease-in-out infinite;
+  }
+
+  @keyframes float-gentle {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* Shimmer effect for success states */
+  .shimmer {
+    background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.3), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
   }
 }

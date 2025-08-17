@@ -1,14 +1,124 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { LoginForm } from "@/components/auth/LoginForm";
+import { StudentDashboard } from "@/components/student/StudentDashboard";
+import { NewReportForm } from "@/components/student/NewReportForm";
+import { TeacherDashboard } from "@/components/teacher/TeacherDashboard";
+import { ReviewReportModal } from "@/components/teacher/ReviewReportModal";
+
+type UserType = 'student' | 'teacher' | null;
+type ViewType = 'login' | 'dashboard' | 'new-report' | 'history';
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
-  );
+  const [currentUser, setCurrentUser] = useState<UserType>(null);
+  const [userData, setUserData] = useState<any>(null);
+  const [currentView, setCurrentView] = useState<ViewType>('login');
+  const [selectedReportId, setSelectedReportId] = useState<string | null>(null);
+
+  // Mock report data for teacher review
+  const mockReportData = {
+    id: "RPT003",
+    siswa: { nama: "Andi Pratama", kelas: "5A" },
+    judulBuku: "Malin Kundang",
+    pengarang: "Cerita Rakyat",
+    tanggal: "2024-01-16",
+    ringkasan: "Cerita ini mengisahkan tentang seorang anak yang durhaka kepada ibunya. Malin Kundang yang sudah kaya raya menyangkal ibunya yang miskin ketika ia kembali ke kampung halaman. Akibat perbuatannya, ia dikutuk menjadi batu. Dari cerita ini saya belajar bahwa kita harus selalu menghormati dan berbakti kepada orang tua. Tidak boleh menyangkal atau malu dengan keadaan orang tua kita. Kebahagiaan dan kesuksesan yang kita raih seharusnya membuat kita semakin menghargai orang yang telah berjasa dalam hidup kita, terutama orang tua."
+  };
+
+  const handleLogin = (userType: UserType, user: any) => {
+    setCurrentUser(userType);
+    setUserData(user);
+    setCurrentView('dashboard');
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    setUserData(null);
+    setCurrentView('login');
+    setSelectedReportId(null);
+  };
+
+  const handleNewReport = () => {
+    setCurrentView('new-report');
+  };
+
+  const handleBackToDashboard = () => {
+    setCurrentView('dashboard');
+  };
+
+  const handleSubmitReport = (reportData: any) => {
+    // In real app, this would call the Google Sheets API
+    console.log('Submitting report:', reportData);
+    setCurrentView('dashboard');
+  };
+
+  const handleViewHistory = () => {
+    setCurrentView('history');
+  };
+
+  const handleReviewReport = (reportId: string) => {
+    setSelectedReportId(reportId);
+  };
+
+  const handleApproveReport = (reportId: string, feedback: string, points: number) => {
+    // In real app, this would call the Google Sheets API
+    console.log('Approving report:', { reportId, feedback, points });
+    setSelectedReportId(null);
+  };
+
+  const handleRejectReport = (reportId: string, feedback: string) => {
+    // In real app, this would call the Google Sheets API  
+    console.log('Rejecting report:', { reportId, feedback });
+    setSelectedReportId(null);
+  };
+
+  // Login view
+  if (currentView === 'login') {
+    return <LoginForm onLogin={handleLogin} />;
+  }
+
+  // Student views
+  if (currentUser === 'student') {
+    if (currentView === 'new-report') {
+      return (
+        <NewReportForm
+          studentData={userData}
+          onBack={handleBackToDashboard}
+          onSubmit={handleSubmitReport}
+        />
+      );
+    }
+
+    return (
+      <StudentDashboard
+        studentData={userData}
+        onNewReport={handleNewReport}
+        onViewHistory={handleViewHistory}
+        onLogout={handleLogout}
+      />
+    );
+  }
+
+  // Teacher views
+  if (currentUser === 'teacher') {
+    return (
+      <>
+        <TeacherDashboard
+          teacherData={userData}
+          onReviewReport={handleReviewReport}
+          onLogout={handleLogout}
+        />
+        <ReviewReportModal
+          isOpen={!!selectedReportId}
+          onClose={() => setSelectedReportId(null)}
+          reportData={mockReportData}
+          onApprove={handleApproveReport}
+          onReject={handleRejectReport}
+        />
+      </>
+    );
+  }
+
+  return null;
 };
 
 export default Index;
