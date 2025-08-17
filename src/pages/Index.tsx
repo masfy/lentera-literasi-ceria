@@ -4,6 +4,7 @@ import { StudentDashboard } from "@/components/student/StudentDashboard";
 import { NewReportForm } from "@/components/student/NewReportForm";
 import { TeacherDashboard } from "@/components/teacher/TeacherDashboard";
 import { ReviewReportModal } from "@/components/teacher/ReviewReportModal";
+import { api } from "@/lib/api";
 
 type UserType = 'student' | 'teacher' | null;
 type ViewType = 'login' | 'dashboard' | 'new-report' | 'history';
@@ -46,8 +47,7 @@ const Index = () => {
   };
 
   const handleSubmitReport = (reportData: any) => {
-    // In real app, this would call the Google Sheets API
-    console.log('Submitting report:', reportData);
+    // Report submission is handled in NewReportForm component
     setCurrentView('dashboard');
   };
 
@@ -59,16 +59,28 @@ const Index = () => {
     setSelectedReportId(reportId);
   };
 
-  const handleApproveReport = (reportId: string, feedback: string, points: number) => {
-    // In real app, this would call the Google Sheets API
-    console.log('Approving report:', { reportId, feedback, points });
-    setSelectedReportId(null);
+  const handleApproveReport = async (reportId: string, feedback: string, points: number) => {
+    try {
+      const response = await api.approveReport(reportId, feedback, points);
+      if (response.success) {
+        setSelectedReportId(null);
+        // Refresh the teacher dashboard data
+      }
+    } catch (error) {
+      console.error('Error approving report:', error);
+    }
   };
 
-  const handleRejectReport = (reportId: string, feedback: string) => {
-    // In real app, this would call the Google Sheets API  
-    console.log('Rejecting report:', { reportId, feedback });
-    setSelectedReportId(null);
+  const handleRejectReport = async (reportId: string, feedback: string) => {
+    try {
+      const response = await api.rejectReport(reportId, feedback);
+      if (response.success) {
+        setSelectedReportId(null);
+        // Refresh the teacher dashboard data
+      }
+    } catch (error) {
+      console.error('Error rejecting report:', error);
+    }
   };
 
   // Login view

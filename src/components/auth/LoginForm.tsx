@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LenteraLogo } from "@/components/LenteraLogo";
 import { BookOpen, GraduationCap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { api } from "@/lib/api";
 
 interface LoginFormProps {
   onLogin: (userType: 'student' | 'teacher', userData: any) => void;
@@ -24,64 +25,62 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate API call - In real implementation, this would call the Google Sheets API
-    setTimeout(() => {
-      if (studentEmail && studentPassword) {
-        // Mock student data
-        const studentData = {
-          id: "NIS001",
-          nama: "Andi Pratama",
-          kelas: "5A",
-          email: studentEmail,
-          totalPoin: 150,
-          level: "Pembaca Pemula"
-        };
-        
-        onLogin('student', studentData);
+    try {
+      const response = await api.loginStudent(studentEmail, studentPassword);
+      
+      if (response.success && response.data) {
+        onLogin('student', response.data);
         toast({
           title: "Login Berhasil!",
-          description: `Selamat datang, ${studentData.nama}!`,
+          description: `Selamat datang, ${(response.data as any).nama}!`,
         });
       } else {
         toast({
           title: "Login Gagal",
-          description: "Periksa kembali email dan password Anda.",
+          description: response.message || "Periksa kembali email dan password Anda.",
           variant: "destructive",
         });
       }
-      setIsLoading(false);
-    }, 1000);
+    } catch (error) {
+      toast({
+        title: "Terjadi kesalahan",
+        description: "Tidak dapat terhubung ke server",
+        variant: "destructive",
+      });
+    }
+    
+    setIsLoading(false);
   };
 
   const handleTeacherLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      if (teacherEmail && teacherPassword) {
-        // Mock teacher data
-        const teacherData = {
-          id: "GURU001",
-          nama: "Bu Sri Wahyuni",
-          email: teacherEmail,
-          kelasBinaan: ["5A", "5B"]
-        };
-        
-        onLogin('teacher', teacherData);
+    try {
+      const response = await api.loginTeacher(teacherEmail, teacherPassword);
+      
+      if (response.success && response.data) {
+        onLogin('teacher', response.data);
         toast({
           title: "Login Berhasil!",
-          description: `Selamat datang, ${teacherData.nama}!`,
+          description: `Selamat datang, ${(response.data as any).nama_guru}!`,
         });
       } else {
         toast({
           title: "Login Gagal", 
-          description: "Periksa kembali email dan password Anda.",
+          description: response.message || "Periksa kembali email dan password Anda.",
           variant: "destructive",
         });
       }
-      setIsLoading(false);
-    }, 1000);
+    } catch (error) {
+      toast({
+        title: "Terjadi kesalahan",
+        description: "Tidak dapat terhubung ke server",
+        variant: "destructive",
+      });
+    }
+    
+    setIsLoading(false);
   };
 
   return (

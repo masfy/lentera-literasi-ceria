@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { LenteraLogo } from "@/components/LenteraLogo";
 import { ArrowLeft, Upload, BookOpen, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { api } from "@/lib/api";
 
 interface NewReportFormProps {
   studentData: { id: string; nama: string };
@@ -77,27 +78,40 @@ export const NewReportForm = ({ studentData, onBack, onSubmit }: NewReportFormPr
 
     setIsSubmitting(true);
 
-    // Simulate API call to submit report
-    setTimeout(() => {
+    try {
       const reportData = {
         idSiswa: studentData.id,
         judulBuku: formData.judulBuku,
         pengarang: formData.pengarang,
         ringkasan: formData.ringkasan,
         fotoBuku: formData.fotoBuku ? "uploaded_photo_url" : null,
-        tanggal: new Date().toISOString().split('T')[0],
-        status: "Menunggu Persetujuan"
       };
 
-      onSubmit(reportData);
-      
+      const response = await api.submitReport(reportData);
+
+      if (response.success) {
+        onSubmit(reportData);
+        
+        toast({
+          title: "Laporan berhasil dikirim! 🎉",
+          description: "Guru akan meninjau laporan Anda segera",
+        });
+      } else {
+        toast({
+          title: "Gagal mengirim laporan",
+          description: response.message || "Terjadi kesalahan saat mengirim laporan",
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
       toast({
-        title: "Laporan berhasil dikirim! 🎉",
-        description: "Guru akan meninjau laporan Anda segera",
+        title: "Terjadi kesalahan",
+        description: "Tidak dapat terhubung ke server",
+        variant: "destructive",
       });
-      
-      setIsSubmitting(false);
-    }, 1500);
+    }
+    
+    setIsSubmitting(false);
   };
 
   return (
