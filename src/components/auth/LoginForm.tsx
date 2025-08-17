@@ -72,7 +72,7 @@ export const LoginForm = ({ onLogin }: LoginFormProps) => {
           variant: "destructive",
         });
       }
-    } catch (error) {
+    } catch (_error) {
       toast({
         title: "Terjadi kesalahan",
         description: "Tidak dapat terhubung ke server",
